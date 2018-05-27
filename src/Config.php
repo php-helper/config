@@ -3,7 +3,7 @@
 namespace PhpHelper\Config;
 
 use Dotenv\Dotenv;
-use PhpHelper\Config\Exceptions;
+use PhpHelper\Config\Exceptions\ConfigNotFound;
 use Symfony\Component\Yaml\Yaml;
 
 class Config
@@ -64,7 +64,7 @@ class Config
     /**
      * @param string $key
      * @return mixed
-     * @throws Exception
+     * @throws KeyNotFoundInConfig
      */
     public function get(string $key)
     {
@@ -108,11 +108,9 @@ class Config
     }
 
     /**
-     * Search config value
-     *
      * @param string $key
-     * @return mixed
-     * @throws Exception
+     * @return array|mixed|mixed[]|null
+     * @throws KeyNotFoundInConfig
      */
     private function getValue(string $key)
     {
@@ -162,10 +160,9 @@ class Config
      * Prepare variables values in parameter
      *
      * @param string $key
-     * @param mixed $value
-     *
-     * @return mixed
-     * @throws Exception
+     * @param $value
+     * @return array|mixed|mixed[]
+     * @throws KeyNotFoundInConfig
      */
     private function prepareValue(string $key, $value)
     {
@@ -202,10 +199,9 @@ class Config
      * Prepare config variable
      *
      * @param string $key
-     * @param mixed $value
-     *
+     * @param $value
      * @return mixed
-     * @throws Exception
+     * @throws KeyNotFoundInConfig
      */
     private function prepareVariable(string $key, $value)
     {
@@ -215,7 +211,7 @@ class Config
             foreach ($variables as $variable) {
                 $value = $this->getVariable($key, $variable, $value);
                 if ($value == '%' . $variable . '%') {
-                    throw new Exception(sprintf('Config variable not defined: %s.', $variable));
+                    throw new KeyNotFoundInConfig(sprintf('Config variable not defined: %s.', $variable));
                 }
             }
         }
@@ -228,10 +224,9 @@ class Config
      *
      * @param string $key
      * @param string $variable
-     * @param mixed $value
-     *
+     * @param $value
      * @return mixed
-     * @throws Exception
+     * @throws KeyNotFoundInConfig
      */
     private function getVariable(string $key, string $variable, $value)
     {

@@ -1,5 +1,5 @@
 {
-    "name": "php-ext/config",
+    "name": "php-helper/config",
     "authors": [
         {
             "name": "Oleg G.",
@@ -9,7 +9,7 @@
     "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
-            "PhpExt\\Config\\": "src"
+            "PhpHelper\\Config\\": "src"
         }
     },
     "require": {

@@ -6,7 +6,7 @@
  * Time: 10:16
  */
 
-namespace Exceptions;
+namespace PhpHelper\Config\Exceptions;
 
 class ConfigNotFound extends \Exception
 {

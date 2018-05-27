@@ -1,11 +1,9 @@
 <?php
 
-namespace PhpExt\Config;
+namespace PhpHelper\Config;
 
 use Dotenv\Dotenv;
-use Exception;
-use Exceptions\ConfigNotFound;
-use Exceptions\KeyNotFoundInConfig;
+use PhpHelper\Config\Exceptions;
 use Symfony\Component\Yaml\Yaml;
 
 class Config

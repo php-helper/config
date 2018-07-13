@@ -3,7 +3,8 @@
 namespace PhpHelper\Config;
 
 use Dotenv\Dotenv;
-use PhpHelper\Config\Exceptions\ConfigNotFound;
+use PhpHelper\Config\Exceptions\ConfigReadException;
+use PhpHelper\Config\Exceptions\KeyNotFoundInConfigException;
 use Symfony\Component\Yaml\Yaml;
 
 class Config
@@ -53,7 +54,7 @@ class Config
         $this->loadedFiles[] = $fileName;
 
         if (!is_readable($fileName)) {
-            throw new ConfigNotFound('File not found: ' . $fileName);
+            throw new ConfigReadException('File not found: ' . $fileName);
         }
 
         $data = file_get_contents($fileName);
@@ -64,7 +65,7 @@ class Config
     /**
      * @param string $key
      * @return mixed
-     * @throws KeyNotFoundInConfig
+     * @throws KeyNotFoundInConfigException
      */
     public function get(string $key)
     {
@@ -72,7 +73,7 @@ class Config
         if (!is_null($value)) {
             return $value;
         } else {
-            throw new KeyNotFoundInConfig("'{$key}' not found in config.");
+            throw new KeyNotFoundInConfigException("'{$key}' not found in config.");
         }
     }
 
@@ -110,7 +111,7 @@ class Config
     /**
      * @param string $key
      * @return array|mixed|mixed[]|null
-     * @throws KeyNotFoundInConfig
+     * @throws KeyNotFoundInConfigException
      */
     private function getValue(string $key)
     {
@@ -162,7 +163,7 @@ class Config
      * @param string $key
      * @param $value
      * @return array|mixed|mixed[]
-     * @throws KeyNotFoundInConfig
+     * @throws KeyNotFoundInConfigException
      */
     private function prepareValue(string $key, $value)
     {
@@ -201,7 +202,7 @@ class Config
      * @param string $key
      * @param $value
      * @return mixed
-     * @throws KeyNotFoundInConfig
+     * @throws KeyNotFoundInConfigException
      */
     private function prepareVariable(string $key, $value)
     {
@@ -211,7 +212,7 @@ class Config
             foreach ($variables as $variable) {
                 $value = $this->getVariable($key, $variable, $value);
                 if ($value == '%' . $variable . '%') {
-                    throw new KeyNotFoundInConfig(sprintf('Config variable not defined: %s.', $variable));
+                    throw new KeyNotFoundInConfigException(sprintf('Config variable not defined: %s.', $variable));
                 }
             }
         }
@@ -226,7 +227,7 @@ class Config
      * @param string $variable
      * @param $value
      * @return mixed
-     * @throws KeyNotFoundInConfig
+     * @throws KeyNotFoundInConfigException
      */
     private function getVariable(string $key, string $variable, $value)
     {

@@ -6,9 +6,8 @@
  * Time: 10:17
  */
 
-namespace PhpHelper\Config;
+namespace PhpHelper\Config\Exceptions;
 
-class KeyNotFoundInConfig extends \Exception
+class KeyNotFoundInConfigException extends \Exception
 {
-
 }

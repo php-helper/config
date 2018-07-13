@@ -8,7 +8,6 @@
 
 namespace PhpHelper\Config\Exceptions;
 
-class ConfigNotFound extends \Exception
+class ConfigReadException extends \Exception
 {
-
 }
